@@ -56,18 +56,8 @@ def get_act_scales(model, tokenizer, dataset_path, num_samples=512, seq_len=512)
     dataset = dataset.shuffle(seed=42)
 
     for i in tqdm(range(num_samples)):
-        # 从数据集中获取文本
-        try:
-            # 尝试字典方式访问
-            text = dataset[i]['text']
-        except (KeyError, TypeError):
-            # 如果失败，尝试列表方式访问
-            try:
-                text = dataset['text'][i]
-            except (KeyError, TypeError):
-                # 如果还是失败，尝试直接索引
-                text = str(dataset[i])
-        
+        # 修复text构建逻辑 - 从数据集中获取文本
+        text = dataset[i]['text'] if isinstance(dataset[i], dict) else dataset['text'][i]
         input_ids = tokenizer(
             text, return_tensors="pt", max_length=seq_len, truncation=True
         ).input_ids.to(device)
