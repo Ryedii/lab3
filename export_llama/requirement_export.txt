@@ -1,0 +1,10 @@
+torch==2.1.0
+transformers==4.35
+huggingface-hub==0.16.4
+accelerate==0.21.0
+torch.onnx
+onnxscript
+numpy==2.0
+optimum>=1.22.0
+protobuf
+SentencePiece
